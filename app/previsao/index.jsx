@@ -8,19 +8,25 @@ const telaPrevisao = () => {
     const [tempo, setTempo] = useState();
 
     const obterPrevisaoDoTempo = async () => {
-        //implementar aqui uma forma de pegar uma informação da API openwheatermap. para isso, utilize a URL abaixo:
-        // `http://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=bddbeed6a893cf7d820e74ae7f9cb95e`
+        fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=bddbeed6a893cf7d820e74ae7f9cb95e`)
+        .then((resposta) => resposta.json())
+        .then((dados) => setTempo(dados))
+            .catch(() => console.log('Aconteceu um erro ao buscar os dados.'));
     };
 
     useEffect(() => {
-      }, []); // implementar este useEffect, que deverá chamar a função de obterPrevisaoDoTempo somente uma vez, quando a tela é aberta.
+        obterPrevisaoDoTempo()
+      }, []); 
 
     return (
             <View style={styles.container}>
-                {weather ? (
+                {tempo ? (
                     <View style={styles.tempoView}>
-                        //Criar aqui um visualização dos dados obtidos pela API do tempo. deve conter no minimo:
-                        // Nome da cidade, temperatura atual, velocidade do vento, humidade, tipo do clima
+                       <Text style={styles.title}>{tempo.name}</Text>
+                       <Text style={styles.p}>Temperatura: {(tempo.main.temp - 273.15).toFixed(2)}°C</Text>
+                       <Text style={styles.p}>Velocidade dos ventos: {tempo.wind.speed}km/h</Text>
+                       <Text style={styles.p}>umidade: {tempo.main.humidity}%</Text>
+                       <Text style={styles.p}>Clima: {tempo.weather[0].main}</Text>
                     </View>
                 ) : <></>}
             </View>
@@ -30,11 +36,21 @@ const telaPrevisao = () => {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        margin:50
+        alignItems:'center',
+        justifyContent:'center'
     },
     tempoView:{
-        alignSelf:'center',
-        justifyContent:'center'
+        padding: 16,
+        width: 300,
+        backgroundColor: '#f2f2f2',
+        borderRadius: 20
+    },
+    title:{
+        fontSize: 22,
+        fontWeight: 'bold'
+    },
+    p: {
+        fontSize: 16
     }
 })
 

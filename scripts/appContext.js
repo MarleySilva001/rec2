@@ -6,7 +6,7 @@ export const AppProvider = ({ children }) => {
     // neste arquivo há um erro proposital, que fará com que o context não funcione. Identifique este erro e corrija, com base nos exercícios feitos em sala
 
     return (
-        <AppContext.Provider value={}>
+        <AppContext.Provider value={{cidade, setCidade}}>
             {children}
         </AppContext.Provider>
     )

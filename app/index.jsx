@@ -10,13 +10,15 @@ export default telaInicio = () => {
 
     return (
         <View style={styles.container}>
-            <Picker>
-                // Implementar aqui o componente picker corretamente. 
-                // Deve conseguir selecionar uma cidade da lista de cidades, e ao selecionar, salvar esta cidade no context
+            <Picker
+            selectedValue={cidade}
+            onValueChange={(item)=> setCidade(item)}>
+                <Picker.Item label='Selecione a cidade' />
+                {cidades.map((item, index) =>(
+                    <Picker.Item key={index} label={item.label} value={item.value} />
+                ))}
             </Picker>
-            
-            //implementar aqui um ternário condicional onde, se uma cidade foi selecionada, deve aparecer um botão para ir para a proxima tela.
-            // Utilizar o componente Link para fazer esta navegação
+            { cidade ? <Link href={'/previsao'} style={styles.link}>veja a previsão do tempo para {cidade}</Link> : <></> }
         </View>
     )
 }
@@ -54,6 +56,11 @@ const cidades = [
   const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginTop: 400
+        justifyContent: 'center',
+        flex: 1
+    },
+    link:{
+        color: 'blue',
+        textDecorationLine: 'underline'
     }
 })
